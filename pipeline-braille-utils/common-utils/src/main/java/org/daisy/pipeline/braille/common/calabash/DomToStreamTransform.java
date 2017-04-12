@@ -12,6 +12,7 @@ import com.xmlcalabash.util.TreeWriter;
 
 import net.sf.saxon.dom.DocumentOverNodeInfo;
 import net.sf.saxon.dom.NodeOverNodeInfo;
+import net.sf.saxon.om.FingerprintedQName;
 import net.sf.saxon.om.NameOfNode;
 import net.sf.saxon.om.NamespaceBinding;
 import net.sf.saxon.om.NodeInfo;
@@ -76,7 +77,10 @@ public abstract class DomToStreamTransform {
 				inscopeNS = toArray(namespaces, NamespaceBinding.class);
 				seenRoot = true; }
 			receiver.setSystemId(element.getBaseURI());
-			addStartElement(new NameOfNode(inode), inode.getSchemaType(), inscopeNS);
+			addStartElement(new FingerprintedQName(inode.getPrefix(),
+			                                       inode.getURI(),
+			                                       inode.getLocalPart()),
+			                inode.getSchemaType(), inscopeNS);
 		}
 		
 		public void copyAttribute(Node attr) {
